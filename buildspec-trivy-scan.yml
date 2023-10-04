@@ -4,6 +4,7 @@ env:
   shell: "/bin/sh"
   variables:
     IMAGE_TAG: registration-service
+    slack_webhook_url: https://hooks.slack.com/services/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
   parameter-store:
     ECR_REGISTRY_URI: ecr-registry-uri
     AWS_DEFAULT_REGION: default-region-aws
@@ -37,8 +38,12 @@ phases:
     - echo Docker Image Scanning...
     - trivy image --severity HIGH,CRITICAL $ECR_REGISTRY_URI:$IMAGE_TAG > trivy_scan.log
     - aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
-    - chmod +x trivy-report.sh
-    - ./trivy-report.sh
+    # - chmod +x trivy-report.sh
+    # - ./trivy-report.sh
+    - echo "scanning"
+    - curl -X POST -H 'Content-type: application/json' --data '{"text":"This is a test message"}' "$slack_webhook_url"
+    - echo "done"
+
 
        
        
