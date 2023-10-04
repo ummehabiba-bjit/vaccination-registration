@@ -39,7 +39,6 @@ artifacts:
   files:
     - docker-image.tar.gz
     - buildspec-trivy-scan.yml
-    - trivy-report.sh
     - buildspec-push.yml
     - buildspec-deploy.yml
     - k8s-manifests/registration-autoscaling.yaml
