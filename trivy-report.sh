@@ -3,8 +3,9 @@
 # Read the Trivy report from the file
 trivy_report=$(cat trivy_scan.log)
 
-# Define your Slack webhook UR
-SLACK_WEBHOOK= slack-webhook-url
+# Retrieve the Slack webhook URL from AWS Systems Manager Parameter Store
+SLACK_WEBHOOK=$(aws ssm get-parameter --name slack-webhook-url --with-decryption --query "Parameter.Value" --output text)
+
 # Create a JSON payload for the Slack message
 payload="{\"text\":\"Trivy Vulnerability Report:\\n$trivy_report\"}"
 
