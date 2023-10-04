@@ -7,6 +7,7 @@ env:
   parameter-store:
     ECR_REGISTRY_URI: ecr-registry-uri
     AWS_DEFAULT_REGION: default-region-aws
+    
 
 phases:
   install:
@@ -39,6 +40,7 @@ artifacts:
   files:
     - docker-image.tar.gz
     - buildspec-trivy-scan.yml
+    - trivy-report.sh
     - buildspec-push.yml
     - buildspec-deploy.yml
     - k8s-manifests/registration-autoscaling.yaml
