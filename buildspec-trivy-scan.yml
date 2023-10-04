@@ -35,14 +35,14 @@ phases:
      
   post_build:
     commands:
-    - echo Docker Image Scanning...
-    - trivy image --severity HIGH,CRITICAL $ECR_REGISTRY_URI:$IMAGE_TAG > trivy_scan.log
-    - aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
-    # - chmod +x trivy-report.sh
-    # - ./trivy-report.sh
-    - echo "scanning"
-    - curl -X POST -H 'Content-type: application/json' --data '{"text":"This is a test message"}' "$slack_webhook_url"
-    - echo "done"
+      - echo Docker Image Scanning...
+      - trivy image --severity HIGH,CRITICAL $ECR_REGISTRY_URI:$IMAGE_TAG > trivy_scan.log
+      - aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
+      # - chmod +x trivy-report.sh
+      # - ./trivy-report.sh
+      - echo "scanning"
+      - curl -X POST -H 'Content-type: application/json' --data '{"text":"This is a test message"}' "$slack_webhook_url"
+      - echo "done"
 
 
        
