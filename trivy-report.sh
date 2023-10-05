@@ -15,7 +15,7 @@ aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/t
 LOG_CONTENT=$(cat ./${FILE_NAME})
 
 # Send the file content to Slack
-curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$LOG_CONTENT\"}" ${SLACK_WEBHOOK_URL}
+curl -X POST -H 'Content-type: application/json' --data '{"text": "Trivy Vulnerability Report:\n"$LOG_CONTENT"}' $SLACK_WEBHOOK_URL
 
 
 
@@ -26,12 +26,7 @@ curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$LOG_CONTEN
 # # Retrieve the Slack webhook URL from AWS Systems Manager Parameter Store
 # SLACK_WEBHOOK=$(aws ssm get-parameter --name slack-webhook-url --with-decryption --query "Parameter.Value" --output text)
 
-# # # Create a JSON payload for the Slack message
-# # payload=
-# # {
-# #   "text": "Trivy Vulnerability Report:\\n$trivy_report"
-# # }
-# # # "{\"text\":\"Trivy Vulnerability Report:\\n$trivy_report\"}"
+
 
 # # # Send the message to Slack
 # # curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK"
