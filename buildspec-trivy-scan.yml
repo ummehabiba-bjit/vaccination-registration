@@ -7,7 +7,7 @@ env:
   parameter-store:
     ECR_REGISTRY_URI: ecr-registry-uri
     AWS_DEFAULT_REGION: default-region-aws
-    SLACK_WEBHOOK: slack-webhook-url
+  
 phases:
   install:
     runtime-versions:
