@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Set your S3 bucket name and Slack webhook URL
 S3_BUCKET_NAME=vaccination-pipeline-artifactstore
 SLACK_WEBHOOK_URL=$(aws ssm get-parameter --name slack-webhook-url --with-decryption --query "Parameter.Value" --output text)
@@ -9,13 +8,37 @@ SLACK_WEBHOOK_URL=$(aws ssm get-parameter --name slack-webhook-url --with-decryp
 FILE_NAME="trivy_scan.log"
 
 # Download the file from S3
-aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
+aws s3 cp s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log ./${FILE_NAME}
 
 # Read the file content
 LOG_CONTENT=$(cat ./${FILE_NAME})
 
-# Send the file content to Slack
-curl -X POST -H 'Content-type: application/json' --data '{"text": "Trivy Vulnerability Report:\n"$LOG_CONTENT"}' $SLACK_WEBHOOK_URL
+# Construct the JSON payload for Slack
+PAYLOAD="{\"text\":\"$LOG_CONTENT\"}"
+
+# Send the payload to Slack
+curl -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "${SLACK_WEBHOOK_URL}"
+
+
+
+# #!/bin/bash
+
+
+# # Set your S3 bucket name and Slack webhook URL
+# S3_BUCKET_NAME=vaccination-pipeline-artifactstore
+# SLACK_WEBHOOK_URL=$(aws ssm get-parameter --name slack-webhook-url --with-decryption --query "Parameter.Value" --output text)
+
+# # Specify the file name you want to retrieve
+# FILE_NAME="trivy_scan.log"
+
+# # Download the file from S3
+# aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
+
+# # Read the file content
+# LOG_CONTENT=$(cat ./${FILE_NAME})
+
+# # Send the file content to Slack
+# curl -X POST -H 'Content-type: application/json' --data '{"text": "Trivy Vulnerability Report:\n"$LOG_CONTENT"}' $SLACK_WEBHOOK_URL
 
 
 
