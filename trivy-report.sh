@@ -7,7 +7,11 @@ trivy_report=$(cat trivy_scan.log)
 SLACK_WEBHOOK=$(aws ssm get-parameter --name slack-webhook-url --with-decryption --query "Parameter.Value" --output text)
 
 # Create a JSON payload for the Slack message
-payload="{\"text\":\"Trivy Vulnerability Report:\\n$trivy_report\"}"
+payload=
+{
+  "text": "Trivy Vulnerability Report:\\n$trivy_report"
+}
+# "{\"text\":\"Trivy Vulnerability Report:\\n$trivy_report\"}"
 
 # Send the message to Slack
 curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK"
