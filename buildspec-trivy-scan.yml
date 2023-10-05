@@ -38,8 +38,5 @@ phases:
       - echo Docker Image Scanning...
       - trivy image --severity HIGH,CRITICAL $ECR_REGISTRY_URI:$IMAGE_TAG > trivy_scan.log
       - aws s3 cp trivy_scan.log s3://vaccination-pipeline-artifactstore/reports/Trivy/trivy_scan.$CODEBUILD_BUILD_ID.log
-      - chmod +x trivy-report.sh
-      - ./trivy-report.sh
-      - echo done scanning
       
 privilegedMode: true
